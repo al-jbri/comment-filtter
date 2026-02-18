@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Youtube Comment Filtter",
+  "version": "1.0",
+  "description": "A simple tool to filter unwanted comments on YouTube videos.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
