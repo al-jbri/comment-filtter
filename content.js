@@ -4,7 +4,7 @@ const observer = new MutationObserver(check);
 observer.observe(document.body, obconfig);
 
 // --- Regex Setup ---
-const bannedContext = ["word1", "word2", "word3"];
+const bannedContext = ["i use Linux Mint btw", "word2", "word3"];
 const scanner = regex(bannedContext);
 
 // Core function to scan and filter comments
@@ -21,7 +21,9 @@ function check() {
     // Skip if already scanned
     if (comment.dataset.scanned) return;
 
-    const isPinned = comment.querySelector("#pinned-comment-badge");
+    const isPinned = comment.querySelector(
+      "#pinned-comment-badge ytd-pinned-comment-badge-renderer",
+    );
     const commentText = comment.querySelector("#content-text span");
 
     // Skip pinned comments
@@ -40,17 +42,24 @@ function check() {
 }
 
 // Regex Generator - Created by AI
-// converts a word list into a smart Arabic-sensitive Regex
-function regex(bannedWords) {
+function regex(bannedItems) {
   return new RegExp(
-    bannedWords
-      .map((word) => {
-        return word
-          .replace(/[أإآا]/g, "[أإآا]") // Normalize Alif with all types of Hamza
-          .split("") // Break word into individual characters
-          .join("[\\u064B-\\u065F\\s]*"); // Allow Arabic diacritics and spaces between chars
+    bannedItems
+      .map((item) => {
+        return item
+          .split(" ")
+          .map((word) => {
+            return word
+              .split("")
+              .map((char) => {
+                if (/[أإآا]/.test(char)) return "[أإآا]";
+                return char;
+              })
+              .join("[\\u064B-\\u065F]*");
+          })
+          .join("\\s+");
       })
-      .join("|"), // Combine words with OR operator
-    "i", // Case-insensitive flag
+      .join("|"),
+    "gi",
   );
 }
