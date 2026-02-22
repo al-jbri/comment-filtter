@@ -11,5 +11,57 @@ button {
   border-radius: 6px;
   border: #3f3f3f solid 2px;
   outline: none;
+}
+
+input {
   padding: 5px;
+}
+
+img {
+  width: 17px;
+  height: 17px;
+}
+
+.secondry-title {
+  margin: 0;
+}
+
+.scrollable-container {
+  height: 150px;
+  width: 500px;
+  overflow-y: auto;
+  border-radius: 6px;
+  padding: 2px;
+  background-color: #222222;
+  margin: 5px;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.tag {
+  background-color: #414141;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.delete {
+  color: #ffffff;
+  transition: all 0.3 ease-in-out;
+  cursor: pointer;
+}
+
+.delete:hover {
+  color: #ff0000;
 }
