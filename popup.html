@@ -1,26 +1,32 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ytcf PopUp</title>
     <link rel="stylesheet" href="style.css" />
     <script src="popup.js" defer></script>
   </head>
   <body>
     <h1>Youtube Comment Filtter</h1>
     <main class="container">
-      <div class="blocklist">
-        <h4 class="secondry-title">Block List</h4>
-        <div id="words-list" class="tags-container"></div>
+      <div class="nes">
+        <h4 class="secondary-title">Block List</h4>
+        <div id="words-list" class="scrollable-container">
+          <span class="tag">you are donkey <span class="delete" id="delete">X</span></span>
+          <span class="tag">تجربة كتابة نص<span class="delete" id="delete">X</span></span>
+          <span class="tag">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero cumque, impedit fugiat magni ratione placeat repellat nulla molestias aut fugit nesciunt doloremque dicta provident sed esse, accusantium architecto, enim facilis. <span class="delete" id="delete">X</span></span>
+        </div>
   
         <form class="input-section" id="add-to-blocklist">
           <input type="text" id="word-input" placeholder="Type a Text..." />
-          <button id="add-btn">Add Text</button>
+          <button id="add-btn"><img src="images/add.svg" alt="Add"></button>
         </form>
       </div>
 
       <div class="lsection">
-        <h4 class="secondry-title">Block Log</h4>
-        <div id="comments-log" class="scrollable-log"></div>
+        <h4 class="secondary-title">Block Log</h4>
+        <div id="comments-log" class="scrollable-container"></div>
       </main>
       <footer>
         <a href="https://github.com/al-jbri">Github</a>
