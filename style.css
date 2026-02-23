@@ -6,20 +6,29 @@ body {
 }
 input,
 button {
-  background-color: #141414;
+  background-color: #212121;
   color: #ffffff;
   border-radius: 6px;
   border: #3f3f3f solid 2px;
   outline: none;
 }
-
 input {
   padding: 5px;
+  transition: all 0.15s ease-in-out;
 }
 
-img {
-  width: 17px;
-  height: 17px;
+input:focus {
+  border: #002aff solid 2px;
+}
+
+button {
+  font-size: 1.3rem;
+  padding: 0px 7px;
+}
+
+button:hover {
+  background-color: #141414;
+  cursor: pointer;
 }
 
 .secondry-title {
@@ -58,7 +67,7 @@ form {
 
 .delete {
   color: #ffffff;
-  transition: all 0.3 ease-in-out;
+  transition: all 0.15s ease-in-out;
   cursor: pointer;
 }
 
