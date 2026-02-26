@@ -1,26 +1,31 @@
-// Global State
+// Global State Variables
 let commentsSection = null;
 let bannedContext = [];
 let scanner = null;
 
-// Initial Data Fetch
+// Initialization
 getBlockList();
 
-// add some listeners
-chrome.storage.sync.onChanged.addListener(getBlockList);
-document.addEventListener("yt-navigate-finish", startObserver);
+// Event Listeners
+chrome.storage.local.onChanged.addListener((changes) => {
+  if (changes.bannedContext) {
+    getBlockList();
+  }
+});
 
-// Core function to scan and filter comments
-function check() {
-  if (!scanner) return;
+document.addEventListener("yt-navigate-finish", getCommentSection);
+
+// Core Filtering Function
+function check(force = false) {
+  if (!scanner || !commentsSection) return;
 
   const comments = commentsSection.querySelectorAll(
     "ytd-comment-thread-renderer",
   );
 
   comments.forEach((comment) => {
-    if (comment.dataset.scanned) return;
-    comment.dataset.scanned = "true";
+    if (comment.dataset.scanned && !force) return;
+    comment.dataset.scanned = true;
 
     const isPinned = comment.querySelector(
       "#pinned-comment-badge ytd-pinned-comment-badge-renderer",
@@ -33,43 +38,59 @@ function check() {
 
     if (commentText && scanner.test(commentText.textContent)) {
       comment.style.display = "none";
+    } else {
+      comment.style.display = "";
     }
   });
 }
 
-// Observer configuration
-const obconfig = { attributes: false, childList: true, subtree: true };
-const observer = new MutationObserver(check);
-
-// Setup and start the MutationObserver
-function startObserver() {
-  observer.disconnect();
-
-  if (!location.pathname.includes("/watch")) return;
-
-  const getCommentsSection = setInterval(() => {
-    commentsSection = document.querySelector("ytd-comments #contents");
-    if (commentsSection) {
-      clearInterval(getCommentsSection);
-      observer.observe(commentsSection, obconfig);
-    }
-  }, 500);
-}
-
-// Fetch blocklist from storage and update the scanner
+// Data Fetching and Scanner Update
 function getBlockList() {
-  chrome.storage.sync.get(["bannedContext"], (result) => {
+  chrome.storage.local.get(["bannedContext"], (result) => {
     bannedContext = result.bannedContext || [];
 
     if (bannedContext.length === 0) {
       scanner = null;
     } else {
       scanner = regex(bannedContext);
+      check(true);
     }
   });
 }
 
-// Regex Generator - Created by AI
+// DOM Element Fetching
+function getCommentSection() {
+  if (!location.pathname.includes("/watch")) return;
+
+  let maxAttempts = 20;
+
+  const getCommentsSection = setInterval(() => {
+    maxAttempts--;
+    commentsSection = document.querySelector("ytd-comments #contents");
+
+    if (commentsSection) {
+      clearInterval(getCommentsSection);
+      startObserver();
+    } else if (maxAttempts <= 0) {
+      clearInterval(getCommentsSection);
+    }
+  }, 500);
+}
+
+// MutationObserver Configuration
+const obconfig = { attributes: false, childList: true, subtree: false };
+const observer = new MutationObserver(() => {
+  check(false);
+});
+
+// Observer Initialization
+function startObserver() {
+  observer.disconnect();
+  if (!commentsSection) return;
+  observer.observe(commentsSection, obconfig);
+}
+
+// Regular Expression Generator
 function regex(bannedItems) {
   return new RegExp(
     bannedItems
@@ -81,6 +102,7 @@ function regex(bannedItems) {
               .split("")
               .map((char) => {
                 if (/[أإآا]/.test(char)) return "[أإآا]";
+                if (/[.*+?^${}()|[\]\\]/.test(char)) return "\\" + char;
                 return char;
               })
               .join("[\\u064B-\\u065F]*");
@@ -88,6 +110,6 @@ function regex(bannedItems) {
           .join("\\s+");
       })
       .join("|"),
-    "gi",
+    "i",
   );
 }
