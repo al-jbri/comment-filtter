@@ -80,7 +80,7 @@ function getCommentSection() {
 }
 
 // MutationObserver Configuration
-const obconfig = { attributes: false, childList: true, subtree: false };
+const obconfig = { attributes: false, childList: true, subtree: true };
 const observer = new MutationObserver(() => {
   check(false);
 });
@@ -91,6 +91,7 @@ function startObserver() {
   if (!commentsSection) return;
   observer.observe(commentsSection, obconfig);
 }
+
 // save the comment object to the log in local
 function updateLog(text, user) {
   chrome.storage.local.get([commentsLog], (result) => {
@@ -107,7 +108,7 @@ function updateLog(text, user) {
   });
 }
 
-// Regular Expression Generator
+// Regex Generator | bulit with AI
 function regex(bannedItems) {
   return new RegExp(
     bannedItems
