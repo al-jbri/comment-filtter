@@ -107,7 +107,7 @@ function updateLog(text, user) {
   chrome.storage.local.get(["commentsLog"], (result) => {
     let log = result.commentsLog || [];
 
-    log.push({ commentText: text, commentUser: user, timestamp: Date.now() });
+    log.push({ commentText: text, commentUser: user, id: Date.now() });
 
     // Enforce maximum limit of 30 items
     if (log.length > 30) {
