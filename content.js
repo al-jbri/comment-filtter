@@ -10,13 +10,15 @@ getBlockList();
 chrome.storage.local.onChanged.addListener((changes) => {
   if (changes.bannedContext) {
     getBlockList();
+    console.log("Storage listener executed successfully");
   }
 });
 
 document.addEventListener("yt-navigate-finish", () => {
-  observer.disconnect();
+  if (observer) observer.disconnect();
   commentsSection = null;
   getCommentSection();
+  console.log("Navigation listener executed successfully");
 });
 
 // Core Filtering Function
@@ -48,6 +50,8 @@ function check(force = false) {
       comment.style.display = "";
     }
   });
+
+  console.log("Check function executed successfully");
 }
 
 // Data Fetching and Scanner Update
@@ -61,6 +65,8 @@ function getBlockList() {
       scanner = regex(bannedContext);
       check(true);
     }
+
+    console.log("Block list fetched successfully");
   });
 }
 
@@ -73,6 +79,7 @@ const observer = new MutationObserver(() => {
 // Observer Initialization
 function startObserver() {
   observer.observe(commentsSection, obconfig);
+  console.log("Observer started successfully");
 }
 
 // DOM Element Fetching
@@ -88,6 +95,7 @@ function getCommentSection() {
     if (commentsSection) {
       clearInterval(getCommentsSection);
       startObserver();
+      console.log("Comment section found successfully");
     } else if (maxAttempts <= 0) {
       clearInterval(getCommentsSection);
     }
@@ -107,6 +115,7 @@ function updateLog(text, user) {
     }
 
     chrome.storage.local.set({ commentsLog: log });
+    console.log("Log updated successfully");
   });
 }
 
