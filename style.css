@@ -19,9 +19,20 @@
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
-  font-family: sans-serif;
+
+  /* to use the system default font  */
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
   font-size: 1.1rem;
-  padding: 16px;
+  padding: 5px 5px 20px 5px;
   width: 360px;
   box-sizing: border-box;
 }
@@ -40,7 +51,7 @@ body {
     LAYOUT & CONTAINERS 
     ========================================= */
 .scrollable-container {
-  height: 150px;
+  height: 160px;
   width: 100%;
   overflow-y: auto;
   border-radius: var(--radius);
@@ -51,6 +62,7 @@ body {
   flex-wrap: wrap;
   align-content: flex-start;
   gap: 8px;
+  box-sizing: border-box;
 }
 
 /* ========================================= 
@@ -181,23 +193,37 @@ button:hover {
     ========================================= */
 footer {
   display: flex;
-  justify-content: center;
-  gap: 30px;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
+  font-size: 0.7rem;
 }
 
-footer a {
-  display: inline-flex;
+.github-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius);
+  color: var(--text-main);
   text-decoration: none;
+  padding: 0px 7px;
 }
 
-footer img {
-  width: 35px;
-  height: 35px;
-  display: block;
-  transition: transform var(--transition-speed) ease-in-out;
+.github-btn:hover {
+  background-color: var(--bg-hover);
 }
 
-footer img:hover {
-  transform: scale(1.2);
+.github-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+.dua-msg {
+  position: fixed;
+  bottom: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.4;
 }
