@@ -57,7 +57,7 @@ function check(force = false) {
 // Data Fetching and Scanner Update
 function getBlockList() {
   chrome.storage.local.get(["bannedContext"], (result) => {
-    bannedContext = result.bannedContext || [];
+    const bannedContext = result.bannedContext || [];
 
     if (bannedContext.length === 0) {
       scanner = null;
@@ -105,16 +105,16 @@ function getCommentSection() {
 // save the comment object to the log in local
 function updateLog(text, user) {
   chrome.storage.local.get(["commentsLog"], (result) => {
-    let log = result.commentsLog || [];
+    let list = result.commentsLog || [];
 
-    log.push({ commentText: text, commentUser: user, id: Date.now() });
+    list.push({ commentText: text, commentUser: user, id: Date.now() });
 
     // Enforce maximum limit of 30 items
-    if (log.length > 30) {
-      log.shift();
+    if (list.length > 30) {
+      list.shift();
     }
 
-    chrome.storage.local.set({ commentsLog: log });
+    chrome.storage.local.set({ commentsLog: list });
     console.log("Log updated successfully");
   });
 }

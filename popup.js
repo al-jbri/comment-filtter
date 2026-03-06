@@ -1,6 +1,9 @@
 const tagsContainer = document.getElementById("words-list");
 const commentLog = document.getElementById("comments-log");
 
+const addForm = document.getElementById("add-to-blocklist");
+const addFormText = document.getElementById("word-input");
+
 getAndRenderTags();
 getAndRenderLogs();
 
@@ -10,12 +13,25 @@ chrome.storage.local.onChanged.addListener((changes) => {
   }
 });
 
+addForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  addToBlockList(addFormText.value);
+  addFormText.value = "";
+});
+
+tagsContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete")) {
+    removeFromBlockList(e.target);
+  }
+});
+
 function getAndRenderTags() {
   chrome.storage.local.get(["bannedContext"], (result) => {
     tagsContainer.innerHTML = "";
-    if (!result) return;
+    let list = result.bannedContext;
+    if (!list) return;
 
-    bannedContext.forEach((context) => {
+    list.forEach((context) => {
       renderTag(context);
     });
   });
@@ -23,7 +39,7 @@ function getAndRenderTags() {
   function renderTag(tagText) {
     const tagHtml = `
     <span class="tag-text" dir="auto"></span>
-    <span class="delete" id="delete">X</span>
+    <span class="delete">X</span>
     `;
 
     let element = document.createElement("div");
@@ -41,8 +57,10 @@ function getAndRenderTags() {
 function getAndRenderLogs() {
   chrome.storage.local.get(["commentsLog"], (result) => {
     commentLog.innerHTML = "";
-    if (!result) return;
-    bannedContext.forEach((comment) => {
+
+    let list = result.commentsLog;
+    if (!list) return;
+    list.forEach((comment) => {
       renderComment(comment);
     });
   });
@@ -63,4 +81,25 @@ function getAndRenderLogs() {
 
     commentLog.appendChild(commentElement);
   }
+}
+
+function addToBlockList(text) {
+  chrome.storage.local.get(["bannedContext"], (result) => {
+    let list = result.bannedContext || [];
+
+    list.push(text);
+    chrome.storage.local.set({ bannedContext: list }, () => getAndRenderTags());
+  });
+}
+
+function removeFromBlockList(tag) {
+  chrome.storage.local.get(["bannedContext"], (result) => {
+    let list = result.bannedContext;
+
+    list.filter((i) => {
+      i.textcontent !== tag.textContent;
+    });
+
+    chrome.storage.local.set({ bannedContext: list }, () => getAndRenderTags());
+  });
 }
