@@ -21,7 +21,7 @@ addForm.addEventListener("submit", (e) => {
 
 tagsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
-    removeFromBlockList(e.target);
+    removeFromBlockList(e.target.closest(".tag"));
   }
 });
 
@@ -87,6 +87,7 @@ function addToBlockList(text) {
   chrome.storage.local.get(["bannedContext"], (result) => {
     let list = result.bannedContext || [];
 
+    if (list.includes(text)) return;
     list.push(text);
     chrome.storage.local.set({ bannedContext: list }, () => getAndRenderTags());
   });
@@ -94,9 +95,7 @@ function addToBlockList(text) {
 
 function removeFromBlockList(tag) {
   chrome.storage.local.get(["bannedContext"], (result) => {
-    let list = result.bannedContext;
-
-    list.filter((i) => {
+    let list = result.bannedContext.filter((i) => {
       i.textcontent !== tag.textContent;
     });
 
