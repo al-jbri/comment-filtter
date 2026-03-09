@@ -7,7 +7,8 @@
   --bg-hover: #282828;
   --text-main: #ededed;
   --border-color: #3f3f3f;
-  --accent-color: #002aff;
+  --accent-color: #08a100;
+  --accent-hover: #056400;
   --danger-color: #ff0000;
   --radius: 6px;
   --transition-speed: 0.1s;
@@ -112,8 +113,8 @@ button {
 }
 
 button:hover {
-  background-color: #0021c9;
-  border-color: #0021c9;
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 /* ========================================= 
