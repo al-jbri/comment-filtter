@@ -126,8 +126,7 @@ function regex(bannedItems) {
         return item
           .split(" ")
           .map((word) => {
-            return word
-              .split("")
+            return Array.from(word)
               .map((char) => {
                 if (/[أإآا]/.test(char)) return "[أإآا]";
                 if (/[.*+?^${}()|[\]\\]/.test(char)) return "\\" + char;
@@ -138,6 +137,6 @@ function regex(bannedItems) {
           .join("\\s+");
       })
       .join("|"),
-    "i",
+    "iu",
   );
 }
