@@ -78,7 +78,6 @@ function getAndRenderLogs() {
   function renderComment(commentData) {
     const commentElement = document.createElement("div");
     commentElement.classList.add("comment");
-    commentElement.dataset.id = commentData.id;
     commentElement.innerHTML = `
       <p class="user" dir="auto"></p>
       <p class="comment-text" dir="auto"></p>
