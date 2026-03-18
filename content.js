@@ -48,6 +48,7 @@ function check(force = false) {
 
     if (commentText && scanner.test(commentText)) {
       updateLog(commentText, commentUser.textContent);
+      comment.style.display = "none";
     } else {
       comment.style.display = "";
     }
@@ -113,7 +114,7 @@ function updateLog(text, user) {
 
     // Enforce maximum limit of 30 items
     if (list.length > 30) {
-      list.shift();
+      list.pop();
     }
 
     chrome.storage.local.set({ commentsLog: list });
