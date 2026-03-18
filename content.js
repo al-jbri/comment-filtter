@@ -35,16 +35,19 @@ function check(force = false) {
     const isPinned = comment.querySelector(
       "#pinned-comment-badge ytd-pinned-comment-badge-renderer",
     );
-    const commentText = comment.querySelector("#content-text span");
+
+    const commentText = getTextWIthEmoji(
+      comment.querySelector("#content-text span"),
+    );
+
     const commentUser = comment.querySelector("#author-text span");
 
     if (isPinned) {
       return;
     }
 
-    if (commentText && scanner.test(commentText.textContent)) {
-      comment.style.display = "none";
-      updateLog(commentText.textContent, commentUser.textContent);
+    if (commentText && scanner.test(commentText)) {
+      updateLog(commentText, commentUser.textContent);
     } else {
       comment.style.display = "";
     }
@@ -118,25 +121,42 @@ function updateLog(text, user) {
   });
 }
 
+function getTextWIthEmoji(rawComment) {
+  let finalText = "";
+  rawComment.childNodes.forEach((elemnt) => {
+    if (elemnt.nodeType === 3) {
+      finalText += elemnt.nodeValue;
+    } else if (elemnt.nodeName === "SPAN") {
+      let spanImg = elemnt.querySelector("img");
+      if (spanImg) {
+        finalText += spanImg.alt;
+      }
+    }
+  });
+  return finalText.trim();
+}
+
 // Regex Generetor | bulit with AI
 function regex(bannedItems) {
-  return new RegExp(
-    bannedItems
-      .map((item) => {
-        return item
-          .split(" ")
-          .map((word) => {
-            return Array.from(word)
-              .map((char) => {
-                if (/[أإآا]/.test(char)) return "[أإآا]";
-                if (/[.*+?^${}()|[\]\\]/.test(char)) return "\\" + char;
-                return char;
-              })
-              .join("[\\u064B-\\u065F]*");
-          })
-          .join("\\s+");
-      })
-      .join("|"),
-    "iu",
-  );
+  const regexPattern = bannedItems
+    .map((item) => {
+      return item
+        .trim()
+        .split(/\s+/)
+        .map((word) => {
+          return Array.from(word)
+            .map((char) => {
+              if (/[.*+?^${}()|[\]\\]/.test(char)) return "\\" + char;
+              if (/[أإآا]/.test(char)) return "[أإآا][\\u0640\\u064B-\\u065F]*";
+              if (/[\u0621-\u064A]/.test(char))
+                return char + "[\\u0640\\u064B-\\u065F]*";
+              return char;
+            })
+            .join("");
+        })
+        .join("\\s+");
+    })
+    .join("|");
+
+  return new RegExp(regexPattern, "iu");
 }
