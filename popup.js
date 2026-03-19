@@ -83,9 +83,9 @@ function getAndRenderLogs() {
       <p class="comment-text" dir="auto"></p>
     `;
 
-    commentElement.querySelector(".user").textContent = commentData.commentUser;
+    commentElement.querySelector(".user").textContent = commentData.user;
     commentElement.querySelector(".comment-text").textContent =
-      commentData.commentText;
+      commentData.text;
 
     commentLog.appendChild(commentElement);
   }

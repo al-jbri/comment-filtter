@@ -28,6 +28,8 @@ function check(force = false) {
     "ytd-comment-thread-renderer",
   );
 
+  let bannedComments = [];
+
   comments.forEach((comment) => {
     if (comment.dataset.scanned && !force) return;
     comment.dataset.scanned = true;
@@ -47,12 +49,17 @@ function check(force = false) {
     }
 
     if (commentText && scanner.test(commentText)) {
-      updateLog(commentText, commentUser.textContent);
       comment.style.display = "none";
+      bannedComments.push({ text: commentText, user: commentUser.innerText });
     } else {
       comment.style.display = "";
     }
   });
+
+  if (bannedComments.length > 0) {
+    updateLog(bannedComments);
+    bannedComments = [];
+  }
 
   console.log("Check function executed successfully");
 }
@@ -106,14 +113,13 @@ function getCommentSection() {
 }
 
 // save the comment object to the log in local
-function updateLog(text, user) {
+function updateLog(newComments) {
   chrome.storage.local.get(["commentsLog"], (result) => {
     let list = result.commentsLog || [];
-
-    list.unshift({ commentText: text, commentUser: user });
+    list = [...newComments, ...list];
 
     // Enforce maximum limit of 30 items
-    if (list.length > 30) {
+    while (list.length > 30) {
       list.pop();
     }
 
