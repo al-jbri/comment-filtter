@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Comment Filtter",
+  "name": "Comment Filter",
   "version": "1.0",
   "description": "Simple Comment Filter for YouTube",
 
@@ -20,5 +20,12 @@
       "js": ["content.js"]
     }
   ],
-  "permissions": ["storage", "unlimitedStorage"]
+  "permissions": ["storage", "unlimitedStorage"],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "comment-filter@aljbri.com",
+      "strict_min_version": "109.0"
+    }
+  }
 }

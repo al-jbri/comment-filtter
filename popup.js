@@ -36,7 +36,7 @@ tagsContainer.addEventListener("click", (e) => {
 // Fetch banned words from storage and display them
 function getAndRenderTags() {
   chrome.storage.local.get(["bannedContext"], (result) => {
-    tagsContainer.innerHTML = "";
+    tagsContainer.textContent = "";
     let list = result.bannedContext;
     if (!list) return;
 
@@ -47,16 +47,24 @@ function getAndRenderTags() {
 
   // Render a single tag
   function renderTag(tagText) {
-    const tagHtml = `
-      <span class="tag-text" dir="auto"></span>
-      <span class="delete">X</span>
-    `;
-
     let element = document.createElement("div");
-    element.innerHTML = tagHtml;
     element.classList.add("tag");
     element.setAttribute("title", tagText);
-    element.querySelector(".tag-text").textContent = tagText;
+
+    // Create the tag text span
+    let spanText = document.createElement("span");
+    spanText.classList.add("tag-text");
+    spanText.setAttribute("dir", "auto");
+    spanText.textContent = tagText;
+
+    // Create the delete button span
+    let spanDelete = document.createElement("span");
+    spanDelete.classList.add("delete");
+    spanDelete.textContent = "X";
+
+    // Append spans to the main div
+    element.appendChild(spanText);
+    element.appendChild(spanDelete);
 
     tagsContainer.appendChild(element);
   }
@@ -65,7 +73,7 @@ function getAndRenderTags() {
 // Fetch comment logs from storage and display them
 function getAndRenderLogs() {
   chrome.storage.local.get(["commentsLog"], (result) => {
-    commentLog.innerHTML = "";
+    commentLog.textContent = "";
     let list = result.commentsLog;
     if (!list) return;
 
@@ -78,14 +86,22 @@ function getAndRenderLogs() {
   function renderComment(commentData) {
     const commentElement = document.createElement("div");
     commentElement.classList.add("comment");
-    commentElement.innerHTML = `
-      <p class="user" dir="auto"></p>
-      <p class="comment-text" dir="auto"></p>
-    `;
 
-    commentElement.querySelector(".user").textContent = commentData.user;
-    commentElement.querySelector(".comment-text").textContent =
-      commentData.text;
+    // Create the user paragraph
+    const userPara = document.createElement("p");
+    userPara.classList.add("user");
+    userPara.setAttribute("dir", "auto");
+    userPara.textContent = commentData.user;
+
+    // Create the comment text paragraph
+    const textPara = document.createElement("p");
+    textPara.classList.add("comment-text");
+    textPara.setAttribute("dir", "auto");
+    textPara.textContent = commentData.text;
+
+    // Append paragraphs to the main div
+    commentElement.appendChild(userPara);
+    commentElement.appendChild(textPara);
 
     commentLog.appendChild(commentElement);
   }
