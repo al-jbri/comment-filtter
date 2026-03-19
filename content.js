@@ -118,8 +118,8 @@ function updateLog(newComments) {
     let list = result.commentsLog || [];
     list = [...newComments, ...list];
 
-    // Enforce maximum limit of 30 items
-    while (list.length > 30) {
+    // Enforce maximum limit of 50 items
+    while (list.length > 50) {
       list.pop();
     }
 
