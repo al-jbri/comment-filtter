@@ -143,7 +143,7 @@ function getTextWIthEmoji(rawComment) {
   return finalText.trim();
 }
 
-// Regex Generetor | bulit with AI
+// Regex Generetor | genereted by AI
 function regex(bannedItems) {
   const regexPattern = bannedItems
     .map((item) => {
