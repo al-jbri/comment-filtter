@@ -7,17 +7,13 @@ getBlockList();
 
 // Event Listeners
 chrome.storage.local.onChanged.addListener((changes) => {
-  if (changes.bannedContext) {
-    getBlockList();
-    console.log("Storage listener executed successfully");
-  }
+  if (changes.bannedContext) getBlockList();
 });
 
 document.addEventListener("yt-navigate-finish", () => {
   if (observer) observer.disconnect();
   commentsSection = null;
   getCommentSection();
-  console.log("Navigation listener executed successfully");
 });
 
 // Core Filtering Function
@@ -60,8 +56,6 @@ function check(force = false) {
     updateLog(bannedComments);
     bannedComments = [];
   }
-
-  console.log("Check function executed successfully");
 }
 
 // Data Fetching and Scanner Update
@@ -71,12 +65,16 @@ function getBlockList() {
 
     if (list.length === 0) {
       scanner = null;
+
+      if (commentsSection) {
+        commentsSection
+          .querySelectorAll("ytd-comment-thread-renderer")
+          .forEach((comment) => (comment.style.display = ""));
+      }
     } else {
       scanner = regex(list);
       check(true);
     }
-
-    console.log("Block list fetched successfully");
   });
 }
 
@@ -89,7 +87,6 @@ const observer = new MutationObserver(() => {
 // Observer Initialization
 function startObserver() {
   observer.observe(commentsSection, obconfig);
-  console.log("Observer started successfully");
 }
 
 // DOM Element Fetching
@@ -105,7 +102,6 @@ function getCommentSection() {
     if (commentsSection) {
       clearInterval(getCommentsSection);
       startObserver();
-      console.log("Comment section found successfully");
     } else if (maxAttempts <= 0) {
       clearInterval(getCommentsSection);
     }
@@ -124,7 +120,6 @@ function updateLog(newComments) {
     }
 
     chrome.storage.local.set({ commentsLog: list });
-    console.log("Log updated successfully");
   });
 }
 
