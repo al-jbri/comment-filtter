@@ -4,7 +4,9 @@
 
 A lightweight, open-source web extension for Firefox, Chrome, and their derivatives, designed to enhance your YouTube viewing experience by hiding annoying, repetitive, or unwanted comments based on custom keywords and contexts you define.
 
-![how to use](readme-resources/use.gif)
+<div align="center">
+  <img src="./readme-resources/use.gif" alt="how to use" width="100%">
+</div>
 
 ## ✨ Features
 
