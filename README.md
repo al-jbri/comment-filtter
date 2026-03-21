@@ -4,7 +4,13 @@
 
 A lightweight, open-source web extension for Firefox, Chrome, and their derivatives, designed to enhance your YouTube viewing experience by hiding annoying, repetitive, or unwanted comments based on custom keywords and contexts you define.
 
-<video src="how-to-use.mp4" autoplay loop muted playsinline width="100%"></video>
+<video src="https://github.com/user-attachments/assets/80f237d2-c526-46c8-8a02-1641b856333c" autoplay loop muted playsinline width="100%"></video>
+
+
+
+
+
+
 
 ## ✨ Features
 
