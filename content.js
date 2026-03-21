@@ -18,7 +18,7 @@ document.addEventListener("yt-navigate-finish", () => {
 
 // Core Filtering Function
 function check(force = false) {
-  if (!scanner || !commentsSection) return;
+  if (!commentsSection) return;
 
   const comments = commentsSection.querySelectorAll(
     "ytd-comment-thread-renderer",
@@ -34,15 +34,18 @@ function check(force = false) {
       "#pinned-comment-badge ytd-pinned-comment-badge-renderer",
     );
 
+    if (isPinned) return;
+
     const commentText = getTextWIthEmoji(
       comment.querySelector("#content-text span"),
     );
 
-    const commentUser = comment.querySelector("#author-text span");
-
-    if (isPinned) {
+    if (!scanner) {
+      comment.style.display = "";
       return;
     }
+
+    const commentUser = comment.querySelector("#author-text span");
 
     if (commentText && scanner.test(commentText)) {
       comment.style.display = "none";
@@ -54,7 +57,6 @@ function check(force = false) {
 
   if (bannedComments.length > 0) {
     updateLog(bannedComments);
-    bannedComments = [];
   }
 }
 
@@ -63,18 +65,8 @@ function getBlockList() {
   chrome.storage.local.get(["bannedContext"], (result) => {
     const list = result.bannedContext || [];
 
-    if (list.length === 0) {
-      scanner = null;
-
-      if (commentsSection) {
-        commentsSection
-          .querySelectorAll("ytd-comment-thread-renderer")
-          .forEach((comment) => (comment.style.display = ""));
-      }
-    } else {
-      scanner = regex(list);
-      check(true);
-    }
+    scanner = list.length === 0 ? null : regex(list);
+    check(true);
   });
 }
 
