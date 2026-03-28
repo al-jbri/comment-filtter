@@ -2,15 +2,15 @@
     VARIABLES 
     ========================================= */
 :root {
-  --bg-main: #1f1f1f;
-  --bg-secondary: #303030;
-  --bg-hover: #282828;
-  --text-main: #ededed;
-  --border-color: #3f3f3f;
-  --accent-color: #08a100;
-  --accent-hover: #1e8d18;
-  --danger-color: #ff0000;
-  --radius: 6px;
+  --bg-main: #0c0c0e;
+  --bg-secondary: #141417;
+  --bg-hover: #1e1e24;
+  --accent-color: #10b981;
+  --accent-hover: #059669;
+  --text-main: #e4e4e7;
+  --border-color: #27272a;
+  --danger-color: #ef4444;
+  --radius: 8px;
   --transition-speed: 0.1s;
 }
 
@@ -33,9 +33,14 @@ body {
     sans-serif;
 
   font-size: 1.1rem;
-  padding: 5px 5px 20px 5px;
+  padding: 3px 3px 7px 3px;
   width: 360px;
   box-sizing: border-box;
+}
+
+::selection {
+  background-color: var(--accent-color); /* الأخضر الزمردي */
+  color: #000000; /* نص أسود أو غامق جداً عشان يبرز فوق الأخضر */
 }
 
 /* ========================================= 
@@ -94,7 +99,7 @@ button {
 
 input {
   padding: 5px;
-  transition: border-color var(--transition-speed) ease-in-out;
+  transition: border-color var(--transition-speed) ease-out;
   width: 100%;
   flex-grow: 1;
 }
@@ -107,7 +112,7 @@ button {
   font-size: 1.3rem;
   padding: 0px 7px;
   cursor: pointer;
-  transition: all var(--transition-speed) ease-in-out;
+  transition: all var(--transition-speed) ease-out;
   background-color: var(--accent-color);
   border-color: var(--accent-color);
 }
@@ -129,7 +134,7 @@ button:hover {
   align-items: center;
   gap: 7px;
   max-width: 100%;
-  transition: background-color var(--transition-speed) ease-in-out;
+  transition: background-color var(--transition-speed) ease-out;
 }
 
 .tag:hover {
@@ -146,7 +151,7 @@ button:hover {
 
 .delete {
   color: var(--text-main);
-  transition: color var(--transition-speed) ease-in-out;
+  transition: color var(--transition-speed) ease-out;
   cursor: pointer;
 }
 
@@ -168,7 +173,7 @@ button:hover {
   background-color: var(--bg-secondary);
   border-radius: var(--radius);
   padding: 6px 10px;
-  transition: background-color var(--transition-speed) ease-in-out;
+  transition: background-color var(--transition-speed) ease-out;
   display: flex;
   flex-direction: column;
 }
@@ -210,7 +215,7 @@ footer {
   color: var(--text-main);
   text-decoration: none;
   padding: 0px 7px;
-  transition: background-color var(--transition-speed) ease-in-out;
+  transition: background-color var(--transition-speed) ease-out;
 }
 
 .github-btn:hover {
