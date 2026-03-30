@@ -106,12 +106,20 @@ function updateLog(newComments) {
     let list = result.commentsLog || [];
     list = [...newComments, ...list];
 
-    // Enforce maximum limit of 50 items
-    while (list.length > 50) {
-      list.pop();
-    }
+    // Remove duplicate comments (matching user and text) to prevent log clutter
+    let uniqueList = list.filter((comment, index) => {
+      return (
+        index ===
+        list.findIndex((c) => {
+          return c.text === comment.text && c.user === comment.user;
+        })
+      );
+    });
 
-    chrome.storage.local.set({ commentsLog: list });
+    // Enforce maximum limit of 50 items
+    uniqueList = uniqueList.slice(0, 50);
+
+    chrome.storage.local.set({ commentsLog: uniqueList });
   });
 }
 
