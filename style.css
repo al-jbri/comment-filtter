@@ -1,22 +1,18 @@
-/* ========================================= 
-    VARIABLES 
-    ========================================= */
+/* Variables */
 :root {
-  --bg-main: #0c0c0e;
-  --bg-secondary: #141417;
-  --bg-hover: #1e1e24;
+  --bg-main: #111111;
+  --bg-secondary: #202020;
+  --bg-hover: #2c2c2c;
   --accent-color: #10b981;
   --accent-hover: #059669;
   --text-main: #e4e4e7;
-  --border-color: #27272a;
+  --border-color: #2e2e2e;
   --danger-color: #ef4444;
   --radius: 8px;
   --transition-speed: 0.1s;
 }
 
-/* ========================================= 
-    BASE STYLES 
-    ========================================= */
+/* Base Styles */
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
@@ -39,13 +35,11 @@ body {
 }
 
 ::selection {
-  background-color: var(--accent-color); /* الأخضر الزمردي */
-  color: #000000; /* نص أسود أو غامق جداً عشان يبرز فوق الأخضر */
+  background-color: var(--accent-hover);
+  color: #ffffff;
 }
 
-/* ========================================= 
-    TYPOGRAPHY 
-    ========================================= */
+/* Typography */
 .secondary-title {
   font-size: 0.9rem;
   color: #b3b3b3;
@@ -53,9 +47,8 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-/* ========================================= 
-    LAYOUT & CONTAINERS 
-    ========================================= */
+
+/* Layout & Containers */
 .scrollable-container {
   height: 160px;
   width: 100%;
@@ -71,9 +64,7 @@ body {
   box-sizing: border-box;
 }
 
-/* ========================================= 
-    FORMS & INPUTS 
-    ========================================= */
+/* Forms & Inputs */
 .input-section {
   margin: 0px 0px 16px 0px;
   padding: 2px;
@@ -122,9 +113,7 @@ button:hover {
   border-color: var(--accent-hover);
 }
 
-/* ========================================= 
-    COMPONENTS: TAGS 
-    ========================================= */
+/* Components: Tags */
 .tag {
   background-color: var(--bg-secondary);
   border-radius: var(--radius);
@@ -159,10 +148,7 @@ button:hover {
   color: var(--danger-color);
 }
 
-/* ========================================= 
-    COMMENTS LOG 
-    ========================================= */
-
+/* Comments Log */
 .comments-log {
   flex-direction: column;
   flex-wrap: nowrap;
@@ -194,9 +180,7 @@ button:hover {
   line-height: 1.5;
 }
 
-/* ========================================= 
-    FOOTER 
-    ========================================= */
+/* Footer */
 footer {
   display: flex;
   position: relative;
